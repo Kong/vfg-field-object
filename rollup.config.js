@@ -1,12 +1,12 @@
 import { camelCase } from "lodash";
 import path from "path";
-import babel from "rollup-plugin-babel";
-import commonjs from "rollup-plugin-commonjs";
+import babel from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
 import filesize from "rollup-plugin-filesize";
-import json from "rollup-plugin-json";
+import json from "@rollup/plugin-json";
 import license from "rollup-plugin-license";
-import resolve from "rollup-plugin-node-resolve";
-import replace from "rollup-plugin-replace";
+import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
 import uglify from "rollup-plugin-uglify";
 import vue from "rollup-plugin-vue";
 import { minify } from "uglify-es";
@@ -61,6 +61,20 @@ function genConfig(name) {
     input: opts.entry,
     external: id => pack.dependencies && pack.dependencies[id], // exclude dependencies from build
     plugins: [
+      vue({
+        compileTemplate: true,
+        css: true
+      }),
+      babel({
+        exclude: "node_modules/**",
+        babelHelpers: "runtime",
+        extensions: [".js", ".json", ".vue"],
+        presets: ["@babel/preset-env"],
+        plugins: [
+          ["@babel/plugin-transform-runtime"],
+          ["@babel/plugin-proposal-object-rest-spread"]
+        ]
+      }),
       resolve({
         browser: true,
         jsnext: true,
@@ -68,12 +82,7 @@ function genConfig(name) {
         extensions: [".js", ".json", ".vue"]
       }),
       commonjs(),
-      vue({ compileTemplate: true, css: true }),
       json(),
-      babel({
-        exclude: "node_modules/**",
-        runtimeHelpers: true
-      }),
       filesize()
     ].concat(opts.plugins || []),
     output: {
