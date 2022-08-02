@@ -1,7 +1,7 @@
 {
   "name": "vfg-field-object",
   "description": "A vue-form-generator field to handle objects",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "main": "dist/vfg-field-object.common.js",
   "module": "dist/vfg-field-object.esm.js",
@@ -129,6 +129,6 @@
   "dependencies": {
     "@babel/runtime": "^7.18.6",
     "@vue/babel-preset-app": "^5.0.6",
-    "vue-form-generator": "^2.2.1"
+    "vue-form-generator": "git+https://github.com/Kong/vue-form-generator.git#13decae614a9f05685b1044a3a44a313e2fc00ae"
   }
 }
